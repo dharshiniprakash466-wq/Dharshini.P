@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ATM System</title>
+
+    <style>
+        body {
+            font-family: Arial;
+            background: linear-gradient(to right, #1e3c72, #2a5298);
+            text-align: center;
+            color: white;
+        }
+
+        .box {
+            background: white;
+            color: black;
+            width: 320px;
+            margin: 60px auto;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        input {
+            width: 90%;
+            padding: 10px;
+            margin: 10px;
+        }
+
+        button {
+            width: 95%;
+            padding: 10px;
+            margin: 5px;
+            background: #2a5298;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #1e3c72;
+        }
+
+        #dashboard {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+
+<h1>🏧 ATM Machine</h1>
+
+<!-- LOGIN -->
+<div class="box" id="loginBox">
+    <h2>Login</h2>
+
+    <!-- ❌ Removed form issue -->
+    <input type="text" id="accNo" placeholder="Account Number">
+    <input type="password" id="pin" placeholder="PIN">
+
+    <!-- ✅ Button type fixed -->
+    <button type="button" onclick="login()">Login</button>
+
+    <p id="msg" style="color:red;"></p>
+</div>
+
+<!-- DASHBOARD -->
+<div class="box" id="dashboard">
+    <h2>Welcome</h2>
+    <p id="balanceText">Balance: ₹5000</p>
+
+    <input type="number" id="amount" placeholder="Enter Amount">
+
+    <button onclick="deposit()">Deposit</button>
+    <button onclick="withdraw()">Withdraw</button>
+    <button onclick="checkBalance()">Check Balance</button>
+    <button onclick="logout()">Logout</button>
+</div>
+
+<script>
+let balance = 5000;
+
+// ✅ LOGIN FUNCTION (FIXED)
+function login() {
+    let acc = document.getElementById("accNo").value.trim();
+    let pin = document.getElementById("pin").value.trim();
+
+    if (acc === "1001" && pin === "1111") {
+        document.getElementById("loginBox").style.display = "none";
+        document.getElementById("dashboard").style.display = "block";
+        document.getElementById("msg").innerText = "";
+    } else {
+        document.getElementById("msg").innerText = "Invalid Account Number or PIN!";
+    }
+}
+
+// DEPOSIT
+function deposit() {
+    let amt = parseFloat(document.getElementById("amount").value);
+
+    if (isNaN(amt) || amt <= 0) {
+        alert("Enter valid amount!");
+        return;
+    }
+
+    balance += amt;
+    alert("Deposit successful!");
+    checkBalance();
+}
+
+// WITHDRAW
+function withdraw() {
+    let amt = parseFloat(document.getElementById("amount").value);
+
+    if (isNaN(amt) || amt <= 0) {
+        alert("Enter valid amount!");
+        return;
+    }
+
+    if (amt > balance) {
+        alert("Insufficient balance!");
+    } else {
+        balance -= amt;
+        alert("Withdrawal successful!");
+        checkBalance();
+    }
+}
+
+// CHECK BALANCE
+function checkBalance() {
+    document.getElementById("balanceText").innerText = "Balance: ₹" + balance;
+}
+
+// LOGOUT
+function logout() {
+    document.getElementById("dashboard").style.display = "none";
+    document.getElementById("loginBox").style.display = "block";
+
+    // clear fields
+    document.getElementById("accNo").value = "";
+    document.getElementById("pin").value = "";
+    document.getElementById("amount").value = "";
+}
+</script>
+
+</body>
+</html>
